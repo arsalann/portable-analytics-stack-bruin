@@ -1,21 +1,22 @@
-name: Daily Bruin pipeline
+name: Bruin PR validation
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
-  workflow_dispatch: {}
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "pipeline/**"
+      - ".env.example"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/bruin_pr.yaml"
 
 permissions:
   contents: read
 
-concurrency:
-  group: daily-bruin-pipeline
-  cancel-in-progress: false
-
 jobs:
-  daily:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
     env:
       POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
       POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
@@ -96,6 +97,3 @@ jobs:
 
       - name: Validate pipeline
         run: bruin validate pipeline --environment production --force
-
-      - name: Run pipeline
-        run: bruin run pipeline --environment production --force

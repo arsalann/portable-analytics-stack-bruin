@@ -1,0 +1,22 @@
+name: portable-analytics-stack
+schedule: "@daily"
+start_date: "2012-07-01"
+
+default_connections:
+  duckdb: ducklake
+
+tags:
+  - nyc-open-data
+  - ducklake
+
+domains:
+  - analytics-engineering
+
+retries: 1
+
+variables:
+  incremental_lookback_days:
+    type: integer
+    minimum: 0
+    maximum: 30
+    default: 2
