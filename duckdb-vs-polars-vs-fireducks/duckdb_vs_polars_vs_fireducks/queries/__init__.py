@@ -1,1 +1,0 @@
-"""Query implementations for different libraries.""" 
